@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Video Guide Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/sha.js"></script>
+  <script src="js/tokengenerator.js"></script>
+</head>
+<body>
+<header>
+	<div class="container">
+		<div class="logo"><img src="images/Vidyo-io-Logo.png" /></div>
+	</header>
+	</div>
+<div class="container wrapper-container">	
+  <h1>Video Chat Setup Guide</h1>
+  <p>Set up a simple browser-based audio-video chat in a few minutes.</p> 
+  <h2>Prerequisites</h2>
+  <ul>
+	<li>Chrome or Firefox browser — Vidyo IO works with several browsers, but for this demo we recommend using Chrome or Firefox</li>
+<li>Webcam and Microphone — your browser will ask you to share access to these</li>
+  </ul>
+  Note: There are some errors at latest SDK (i.e. VERSION 4.1.24.15) for Chrome browser, please use Firefox browser for setup.
+  <h2>Set up a simple audio-video chat with Vidyo IO</h2>
+  <p>Below is an editable HTML document loaded with the VidyoClient.js library and camera render area. Follow the steps under the HTML document to quickly set up a basic Vidyo IO video chat.</p>
+	<!-- start code container -->
+	<div class="card">
+			<iframe height='450' allow="camera; microphone" scrolling='no' src='workspace.html' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;' ></iframe>
+		</div>
+	<!-- end code container -->
+	<div id="codeWrapper">
+	
+		<!-- codeContainer-1 -->
+		<div id="codeContainer-1">
+		<h2>Step <span class="pageNo">1</span> of <span>4</span>: Add Callback Method For Vidyo Libray </h2>
+		<p>Copy the code snippet below and add it to the HTML document under // Add Vidyo Libray Callback (use the  <i class="fa fa-files-o" aria-hidden="true"></i> copy button.)</p>
+		<div class="card">
+		  <div class="code-container copy-container">
+			<a href="javascript:void(0)" class="copy-code" onClick="copyfieldvalue(event, 'selectedText1');" ><i class="fa fa-files-o" aria-hidden="true"></i></a>
+			<pre id="selectedText1">
+
+function onVidyoClientLoaded(status) {
+	switch (status.state) {
+		case "READY":
+
+			// Create Vidyoconnector
+			
+			break;
+		case "RETRYING":
+			break;
+		case "FAILED":
+			break;
+		case "FAILEDVERSION":
+			break;
+		case "NOTAVAILABLE":
+			break;
+	}
+	return true;
+}								
+			</pre>
+		  </div>
+		</div>
+		<p><b>Note : </b>Callback method name (i.e. <b>onVidyoClientLoaded</b>) should be same as define on onload method of script
+			 (i.e. "https://static.vidyo.io/latest/javascript/VidyoClient/VidyoClient.js?onload=<b>onVidyoClientLoaded</b>&webrtc=true&plugin=false")</p>
+		<div><button type="button" class="btn btn-primary" onclick="gotoNextStep()" >OK, I added it</button></div>
+	</div>
+	<!-- end codeContainer-1 -->
+	
+	<!-- codeContainer-2 -->
+		<div id="codeContainer-2" style="display:none">
+		<h2>Step <span class="pageNo">2</span> of <span>4</span>: Create Vidyo Connector</h2>
+		<p>Copy the code snippet below and add it to the HTML document under // Create Vidyoconnector (use the <i class="fa fa-files-o" aria-hidden="true"></i> copy button.)</p>
+		<div class="card">
+		  <div class="code-container copy-container">
+			<a href="javascript:void(0)" class="copy-code" onClick="copyfieldvalue(event, 'selectedText2');" ><i class="fa fa-files-o" aria-hidden="true"></i></a>
+			<pre id="selectedText2">
+				
+VC.CreateVidyoConnector({
+	viewId: "renderer",
+	viewStyle: "VIDYO_CONNECTORVIEWSTYLE_Default",
+	remoteParticipants: 8,
+	logFileFilter: "warning info@VidyoClient info@VidyoConnector",
+	logFileName: "",
+	userData: ""
+}).then(function (vidyoConnector) {
+	/*Handle appearance and disappearance of camera devices in the system*/
+	vidyoConnector.RegisterLocalCameraEventListener({
+		onAdded: function(localCamera) {},
+		onRemoved: function(localCamera) {},
+		onSelected: function(localCamera) {},
+		onStateUpdated: function(localCamera, state) {}
+	}).then(function() {
+		console.log("RegisterLocalCameraEventListener Success");
+	}).catch(function() {
+		console.error("RegisterLocalCameraEventListener Failed");
+	});
+	
+	/*Handle appearance and disappearance of microphone devices in the system*/
+	vidyoConnector.RegisterLocalMicrophoneEventListener({
+		onAdded: function(localMicrophone) {},
+		onRemoved: function(localMicrophone) {},
+		onSelected: function(localMicrophone) {},
+		onStateUpdated: function(localMicrophone, state) {}
+	}).then(function() {
+		console.log("RegisterLocalMicrophoneEventListener Success");
+	}).catch(function() {
+		console.error("RegisterLocalMicrophoneEventListener Failed");
+	});
+	
+	/*Handle appearance and disappearance of speaker devices in the system*/
+	vidyoConnector.RegisterLocalSpeakerEventListener({
+		onAdded: function(localSpeaker) {},
+		onRemoved: function(localSpeaker) {},
+		onSelected: function(localSpeaker) {},
+		onStateUpdated: function(localSpeaker, state) {}
+	}).then(function() {
+		console.log("RegisterLocalSpeakerEventListener Success");
+	}).catch(function() {
+		console.error("RegisterLocalSpeakerEventListener Failed");
+	});
+	// Add Token and Connect To Conference
+					
+});				
+			</pre>
+		  </div>
+		</div>
+		<p><b>Note : </b>Assign the id of div to the value of viewId property where camera view will get render/display. </p>
+		<p>This code create vidyo connector which intiallize the camera and provide vidyo connector object.</p>
+		<div><button type="button" class="btn btn-primary" onclick="gotoNextStep()" >OK, I see my video</button> <button type="button" class="btn btn-link" id="nextStep-2" onclick="gotoPrevStep()" >Go back to previous step</button></div>
+		<p class="tip"><strong>Notes:<br></strong><strong>Device permission popup </strong>Click Ok to provide the device access permission.<br><strong>Network Issue </strong>Please check firewall related permissions.</p>
+		</div>
+	<!-- end codeContainer-2 -->
+	
+	<!-- codeContainer-3 -->
+		<div id="codeContainer-3" style="display:none">
+		<h2>Step <span class="pageNo">3</span> of <span>4</span>: Connect To Conference</h2>
+		<p>Copy the code snippet below and add it to the HTML document under // Add Token and Connect To Conference (use the <i class="fa fa-files-o" aria-hidden="true"></i> copy button.)</p>
+		<div class="card">
+		  <div class="code-container copy-container">
+			<a href="javascript:void(0)" class="copy-code" onClick="copyfieldvalue(event, 'selectedText3');" ><i class="fa fa-files-o" aria-hidden="true"></i></a>
+			<pre id="selectedText3">
+
+<div id="generatetoken"></div>
+vidyoConnector.Connect({
+	host: "prod.vidyo.io",
+	token: token,
+	displayName: "user1", //User Name
+	resourceId: "demoroom", //Conference Name
+	onSuccess: function () {
+		console.log("Sucessfully connected");
+	},
+	onFailure: function (reason) {
+		console.log("Error while connecting ", reason);
+	},
+	onDisconnected: function (reason) {
+		console.log("Disconnected ", reason);
+	}
+}).then(function (status) {
+
+}).catch(function () {
+
+});				
+			</pre>
+		  </div>
+		</div>
+		<p>Token are usually generated by your <a href="https://developer.vidyo.io/#/documentation/4.1.24.15" target="_blank">server under 'Tokens' heading</a> but we generated token for you this time.</p>
+		<p>This code connects to the conference.</p>
+		<div><button type="button" class="btn btn-primary" onclick="gotoNextStep()" >OK, I added it</button> <button type="button" class="btn btn-link" id="nextStep-2" onclick="gotoPrevStep()" >Go back to previous step</button></div>
+	</div>
+	<!-- end codeContainer-3 -->
+	
+	<!-- codeContainer-5 -->
+		<div id="codeContainer-4" style="display:none">
+		<h2>Step <span class="pageNo">4</span> of <span>4</span>: Add second video client </h2>
+		<p>Click the button below to launch a second client in a new browser tab (using stackblitz). This should create a second video client, and you will see two video streams on the page.</p>
+
+		<p class="important">Clicking the button below will launch a stackblitz in a new tab in your browser, after which you can return to this tab.</p>
+		<div><button type="button" class="btn btn-primary" onclick="gotoNextStep()" >Launch a second client</button> <button type="button" class="btn btn-link" id="nextStep-2" onclick="gotoPrevStep()" >Go back to previous step</button></div></div>
+	</div>
+	<!-- end codeContainer-4 -->
+
+		<!-- codeContainer-5 -->
+		<div id="codeContainer-5" style="display:none">
+				 <h2>That's it!</h2>
+				<p>You just set up a (very) basic video chat using Vidyo IO. This is a great first step, but the code used here is a bare minimum implementation designed for quickly seeing Vidyo IO in action. You'll need to do a little more setup before launching a production app, including deploying a server. </p>
+		
+			</div>
+			<!-- end codeContainer-5 -->
+	
+	<!-- end code container -->
+
+</div>
+<br/>
+<br/>
+<script>
+
+var tooltip, hidetooltiptimer;
+createtooltip() // create tooltip by calling it ONCE per page. See "Note" below
+
+function showtooltip(e){
+	var evt = e || event
+	clearTimeout(hidetooltiptimer)
+	tooltip.style.left = evt.pageX - 10 + 'px'
+	tooltip.style.top = evt.pageY + 15 + 'px'
+	tooltip.style.opacity = 1
+	hidetooltiptimer = setTimeout(function(){
+		tooltip.style.opacity = 0
+	}, 500)
+}
+
+
+function createtooltip(){ // call this function ONCE at the end of page to create tool tip object
+	tooltip = document.createElement('div')
+	tooltip.style.cssText = 
+		'position:absolute; background:black; color:white; padding:4px;z-index:10000;'
+		+ 'border-radius:2px; font-size:12px;box-shadow:3px 3px 3px rgba(0,0,0,.4);'
+		+ 'opacity:0;transition:opacity 0.3s;left:0;top:0'
+	tooltip.innerHTML = 'Copied!'
+	document.body.appendChild(tooltip)
+}
+
+function copyfieldvalue(e, id){
+	e.preventDefault();
+	var field = document.getElementById(id);	
+	var range = document.createRange()
+    range.selectNodeContents(field)
+    var selection = window.getSelection()
+    selection.removeAllRanges() 
+    selection.addRange(range) 	
+	var copysuccess = document.execCommand('copy');	
+	
+	if (copysuccess){
+		showtooltip(e)
+	}
+}
+
+var page = 1;
+var totalPage=$( "div[id^='codeContainer']" ).length;
+var fadeTime = 500;
+var idName = '#codeContainer-';
+var redirectUrl = 'secondclient.html';
+
+function gotoNextStep(){
+	if(page <= totalPage){
+		if(page === totalPage-1){
+			window.open(redirectUrl,'_blank');
+		}
+
+		$(idName+page).fadeOut(fadeTime,function(){	
+			page++;	
+			$(idName+page).fadeIn();
+		});
+	
+	};
+};
+function gotoPrevStep(){
+	if(page <= totalPage){
+		$(idName+page).fadeOut(fadeTime,function(){	
+			page--;	
+			$(idName+page).fadeIn();	
+		});
+	};
+};
+document.getElementById('generatetoken').innerHTML = 'var token = "'+generateToken()+'";';
+</script>
+</body>
+</html>
