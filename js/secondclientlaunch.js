@@ -80,11 +80,11 @@ const code = ``;
                 });
 
                 // Add Token and Connect To Conference
-                var token = "`+generateToken() +`";
+                var token = "`+generateToken('user2') +`";
                 vidyoConnector.Connect({
                   host: "prod.vidyo.io",
                   token: token,
-                  displayName: "user1", //User Name
+                  displayName: "user2", //User Name
                   resourceId: "demoroom", //Conference Name
                   onSuccess: function () {
                     console.log("Sucessfully connected");

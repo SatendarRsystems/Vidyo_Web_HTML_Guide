@@ -1,17 +1,13 @@
-let USER_NAME = "user1";
-let API_KEY = "4feced96b25342a4830b422ba92fb428";
-let APP_ID = "c8475c.vidyo.io";
-let EXPIRE_TIME = 99999;
+let API_KEY = "4feced96b25342a4830b422ba92fb428"; //vidyo api key
+let APP_ID = "c8475c.vidyo.io"; // vidyo app id
+let EXPIRE_TIME = 99999; //expire time for token
 
 /**
 * Description: generate token for vidyo connector.This method used jsSHA library to generate the token
-* @param {string} apiKey
-* @param {string} appID
-* @param {string} userName
-* @param {Numer} expiresInSeconds
-* @return {null}
+* @param string username
+* @return string token
 */
-generateToken = () => {
+generateToken = (USER_NAME) => {
     let vCard = "";
     const EPOCH_SECONDS = 62167219200;
     const expires = Math.floor(Date.now() / 1000) + EXPIRE_TIME + EPOCH_SECONDS;
